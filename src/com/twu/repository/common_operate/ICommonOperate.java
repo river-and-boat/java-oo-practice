@@ -8,5 +8,5 @@ public interface ICommonOperate {
     void viewSearchRankings();
 
     // 添加一个新的热搜
-    void addHotSearch(HotSearchModel hotSearchModel);
+    boolean addHotSearch(HotSearchModel hotSearchModel);
 }

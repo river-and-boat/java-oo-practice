@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.twu.common.Storage;
 import com.twu.exception.HotDegreeException;
+import com.twu.log.MyLogger;
 import com.twu.model.hot_search.HotSearchModel;
 import com.twu.repository.common_operate.ICommonOperate;
 
@@ -38,7 +39,12 @@ public class CommonServiceImp implements ICommonService {
     @Override
     public void addHotSearchService(HotSearchModel hotSearchModel) {
         //首先判断热搜是否已经存在
-        if (Storage.naturalHotSearchMap.keySet().contains(hotSearchModel.getName())) {
+        if (Storage.naturalHotSearchMap.keySet()
+                .contains(hotSearchModel.getName()) ||
+                Storage.purchaseHotSearchMap.values().stream()
+                        .filter(s -> s.getName().equals(hotSearchModel.getName()))
+                        .count() > 0
+        ) {
             throw new HotDegreeException("已存在该热搜");
         }
 
@@ -51,7 +57,9 @@ public class CommonServiceImp implements ICommonService {
             throw new HotDegreeException("添加的热搜不符合规范");
         }
 
-        commonOperate.addHotSearch(hotSearchModel);
+        if(commonOperate.addHotSearch(hotSearchModel)) {
+            MyLogger.printMessage("添加热搜成功");
+        }
     }
 
     /**

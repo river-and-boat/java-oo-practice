@@ -1,12 +1,13 @@
 package com.twu.repository.common_operate;
 
+import com.sun.javafx.collections.MappingChange;
 import com.twu.common.Storage;
 import com.twu.log.MyLogger;
 import com.twu.model.hot_search.HotSearchModel;
 
-import javax.security.auth.Subject;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,10 +29,11 @@ public class CommonOperateImp implements ICommonOperate {
 
         // 第一个集合为购买热搜集合，在前面，以热度排名进行排序
         // 第二个热搜为自然热搜集合，在后面，以投票数进行排序
+
         List<HotSearchModel> resultList = Stream.concat(
-                Storage.purchaseHotSearchMap.values()
-                        .stream()
-                        .sorted(Comparator.comparingInt(HotSearchModel::getHotDegree).reversed()),
+                Storage.purchaseHotSearchMap.entrySet()
+                        .stream().sorted(Map.Entry.comparingByKey())
+                        .map(s -> s.getValue()),
                 Storage.naturalHotSearchMap.values()
                         .stream()
                         .sorted(Comparator.comparingInt(HotSearchModel::getVotesNum).reversed())
@@ -39,7 +41,7 @@ public class CommonOperateImp implements ICommonOperate {
 
         for (HotSearchModel hotSearch : resultList) {
             // 打印日志
-            MyLogger.printMessage(++count, hotSearch.getName());
+            MyLogger.printHotSearch(++count, hotSearch.getName(), hotSearch.getVotesNum());
         }
     }
 
@@ -50,8 +52,12 @@ public class CommonOperateImp implements ICommonOperate {
      * @param hotSearchModel 待添加的热搜
      */
     @Override
-    public void addHotSearch(HotSearchModel hotSearchModel) {
+    public boolean addHotSearch(HotSearchModel hotSearchModel) {
         // 添加自然热搜
-        Storage.naturalHotSearchMap.put(hotSearchModel.getName(), hotSearchModel);
+        HotSearchModel putModel = Storage.naturalHotSearchMap.put(hotSearchModel.getName(), hotSearchModel);
+        if(putModel != null) {
+            return true;
+        }
+        return false;
     }
 }

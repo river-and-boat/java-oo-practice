@@ -29,6 +29,10 @@ public class HotSearchModel {
     // 该热搜购买的等级，默认为非购买热搜，等级为-1
     private Integer hotDegree = -1;
 
+    public HotSearchModel(String name) {
+        this.name = name;
+    }
+
     public HotSearchModel(String name, Boolean purchaseHotSearch) {
         this.name = name;
         this.purchaseHotSearch = purchaseHotSearch;

@@ -8,6 +8,20 @@ package com.twu.log;
 public class MyLogger {
 
     public static void printMessage(int id, String message) {
-        System.out.println(id + " --------> " + message);
+        System.out.println(id + "." + message);
+    }
+
+    public static void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    /**
+     * 显示热搜列表
+     * @param id 编号
+     * @param name 热搜名
+     * @param votesNum 热搜投票数
+     */
+    public static void printHotSearch(int id, String name, int votesNum) {
+        System.out.println(id + " " + name + " " +votesNum);
     }
 }

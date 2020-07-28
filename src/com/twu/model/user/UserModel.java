@@ -1,5 +1,7 @@
 package com.twu.model.user;
 
+import com.twu.log.MyLogger;
+
 import java.util.HashMap;
 
 /**
@@ -46,19 +48,21 @@ public class UserModel {
         permissionMap.entrySet()
                 .stream()
                 .parallel()
-                .forEachOrdered(k -> System.out.println(k.getKey() + "   " + k.getValue()));
+                .forEachOrdered(k -> MyLogger.printMessage(k.getKey(), k.getValue()));
     }
 
     /**
      * 用户所拥有的权限
      **/
     private static final HashMap<Integer, String> permissionMap
-             = new HashMap<Integer, String>() {
+            = new HashMap<Integer, String>() {
         {
-            put(1,"查看热搜排行榜");
-            put(2,"给热搜投票");
-            put(3,"购买热搜");
-            put(4,"添加热搜");
+            put(1, "查看热搜排行榜");
+            put(2, "给热搜事件投票");
+            put(3, "购买热搜");
+            put(4, "添加热搜");
+            put(5, "退出");
+
         }
     };
 }

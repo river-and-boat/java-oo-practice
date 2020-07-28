@@ -1,12 +1,10 @@
 package com.twu.service.manager_service;
 
-import com.twu.model.hot_search.HotSearchModel;
-
 public interface IManagerService {
 
     /**
      * 添加超级热搜
-     * @param 超级热搜对象
+     * @param hotSearchName 超级热搜名
      */
-    void addSuperHotSearchService(HotSearchModel hotSearchModel);
+    boolean addSuperHotSearchService(String hotSearchName);
 }

@@ -6,7 +6,7 @@ public interface IManagerOperate {
 
     /**
      * 添加超级热搜
-     * @param 超级热搜对象
+     * @param hotSearchModel 超级热搜对象
      */
-    void addSuperHotSearch(HotSearchModel hotSearchModel);
+    boolean addSuperHotSearch(HotSearchModel hotSearchModel);
 }

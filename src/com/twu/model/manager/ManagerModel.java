@@ -17,6 +17,10 @@ public class ManagerModel {
     // 账号类别
     private final static String TYPE = "管理员";
 
+    public ManagerModel(String name) {
+        this.name = name;
+    }
+
     // 显示用户权限
     public void displayPermissionEnum() {
         permissionMap.entrySet()
