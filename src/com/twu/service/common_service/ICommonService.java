@@ -1,5 +1,6 @@
 package com.twu.service.common_service;
 
+import com.twu.exception.HotDegreeException;
 import com.twu.model.hot_search.HotSearchModel;
 
 public interface ICommonService {
@@ -8,5 +9,5 @@ public interface ICommonService {
     void viewSearchRankingsService();
 
     // 添加一个新的热搜
-    void addHotSearchService(HotSearchModel hotSearchModel);
+    boolean addHotSearchService() throws HotDegreeException;
 }

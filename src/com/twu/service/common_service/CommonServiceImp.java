@@ -8,12 +8,16 @@ import com.twu.log.MyLogger;
 import com.twu.model.hot_search.HotSearchModel;
 import com.twu.repository.common_operate.ICommonOperate;
 
+import java.util.Scanner;
+
 /**
  * @Auto Jiang Yuzhou
  * @Date 2020/7/27 16:26
  * @Description 通用热搜服务
  **/
 public class CommonServiceImp implements ICommonService {
+
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     @Inject
     @Named("commonOperate")
@@ -34,10 +38,15 @@ public class CommonServiceImp implements ICommonService {
 
     /**
      * 添加热搜
-     * @param hotSearchModel 待添加的热搜
      */
     @Override
-    public void addHotSearchService(HotSearchModel hotSearchModel) {
+    public boolean addHotSearchService()
+            throws HotDegreeException {
+        MyLogger.printMessage("请输入您要添加的热搜事件的名字:");
+        String hotSearchName = SCANNER.nextLine();
+
+        HotSearchModel hotSearchModel = new HotSearchModel(hotSearchName);
+
         //首先判断热搜是否已经存在
         if (Storage.naturalHotSearchMap.keySet()
                 .contains(hotSearchModel.getName()) ||
@@ -57,9 +66,7 @@ public class CommonServiceImp implements ICommonService {
             throw new HotDegreeException("添加的热搜不符合规范");
         }
 
-        if(commonOperate.addHotSearch(hotSearchModel)) {
-            MyLogger.printMessage("添加热搜成功");
-        }
+        return commonOperate.addHotSearch(hotSearchModel);
     }
 
     /**

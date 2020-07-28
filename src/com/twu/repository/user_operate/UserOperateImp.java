@@ -3,6 +3,8 @@ package com.twu.repository.user_operate;
 import com.twu.common.Storage;
 import com.twu.model.hot_search.HotSearchModel;
 
+import java.util.Optional;
+
 /**
  * @Auto Jiang Yuzhou
  * @Date 2020/7/27 15:52
@@ -30,11 +32,15 @@ public class UserOperateImp implements IUserOperate {
             }
             return true;
         } else {
-            hotSearchModel = Storage.purchaseHotSearchMap.values()
+            Optional<HotSearchModel> model = Storage.purchaseHotSearchMap.values()
                     .stream()
                     .filter(s -> s.getName().equals(name))
-                    .findFirst()
-                    .get();
+                    .findFirst();
+            // 不存在，则返回false
+            if (!model.isPresent()) {
+                return false;
+            }
+            hotSearchModel = model.get();
             if (hotSearchModel != null) {
                 Integer votesNum = hotSearchModel.getVotesNum();
                 if (!hotSearchModel.getType()) {
@@ -65,10 +71,13 @@ public class UserOperateImp implements IUserOperate {
             return setDegreeIfInNatural(hotSearchModelInNatural, price, degree);
         } else {
             // 查询该热搜是否已经在purchaseHotSearchMap中
-            HotSearchModel hotSearchModelInPurchase = Storage.purchaseHotSearchMap.values()
+            Optional<HotSearchModel> model = Storage.purchaseHotSearchMap.values()
                     .stream().filter(s -> s.getName().equals(name))
-                    .findFirst()
-                    .get();
+                    .findFirst();
+            if (!model.isPresent()) {
+                return false;
+            }
+            HotSearchModel hotSearchModelInPurchase = model.get();
             if (hotSearchModelInPurchase != null) {
                 return setDegreeIfNotInNatural(hotSearchModelInPurchase, price, degree);
             } else {
@@ -101,7 +110,7 @@ public class UserOperateImp implements IUserOperate {
                 hotSearchModel.setPurchaseHotSearch(true);
                 hotSearchModel.setHotDegree(degree);
                 Storage.purchaseHotSearchMap.put(degree, hotSearchModel);
-                Storage.naturalHotSearchMap.remove(hotSearchModel);
+                Storage.naturalHotSearchMap.remove(hotSearchModel.getName());
                 return true;
             } else {
                 // 钱不够，购买失败
@@ -114,7 +123,7 @@ public class UserOperateImp implements IUserOperate {
                 hotSearchModel.setPurchaseHotSearch(true);
                 hotSearchModel.setHotDegree(degree);
                 Storage.purchaseHotSearchMap.put(degree, hotSearchModel);
-                Storage.naturalHotSearchMap.remove(hotSearchModel);
+                Storage.naturalHotSearchMap.remove(hotSearchModel.getName());
                 return true;
             } else {
                 return false;
@@ -152,7 +161,6 @@ public class UserOperateImp implements IUserOperate {
             } else {
                 return false;
             }
-
         }
     }
 

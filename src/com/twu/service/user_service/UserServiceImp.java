@@ -23,9 +23,11 @@ public class UserServiceImp implements IUserService {
     private IUserOperate userOperate;
 
     @Override
-    public boolean voteHotSearchService(UserModel user) {
+    public boolean voteHotSearchService(UserModel user)
+            throws UserException {
         MyLogger.printMessage("请输入你要投票的热搜名称:");
         String name = scanner.nextLine();
+
         MyLogger.printMessage("请输入你要投票的热搜票数: (你目前还有: " + user.getVotesNumber() + "票)");
         String voteNumStr = scanner.nextLine();
         if (isNumberMatch(voteNumStr)) {
@@ -49,7 +51,8 @@ public class UserServiceImp implements IUserService {
 
     //String name, Integer price, Integer degree
     @Override
-    public boolean buyHotSearchService() {
+    public boolean buyHotSearchService()
+            throws UserException {
         MyLogger.printMessage("请输入你要购买的热搜名称:");
         String name = scanner.nextLine();
         MyLogger.printMessage("请输入你要购买的热搜排名:");

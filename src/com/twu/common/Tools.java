@@ -12,7 +12,6 @@ import java.util.HashMap;
  * @Description ***
  **/
 public class Tools {
-
     /**
      * 打印登录选项
      */
@@ -43,13 +42,27 @@ public class Tools {
      * @param managerName 管理员姓名
      * @return 添加或已存在的管理员
      */
-    public static ManagerModel addOrGetManager(String managerName) {
+    public static ManagerModel addOrGetManager(String managerName, String password) {
         ManagerModel manager = Storage.managerMap.get(managerName);
         if (manager == null) {
-            manager = new ManagerModel(managerName);
+            manager = new ManagerModel(managerName, password);
             Storage.managerMap.put(managerName, manager);
+            return manager;
+        } else {
+            if (password.equals(manager.getPassword())) {
+                return manager;
+            } else {
+                return null;
+            }
         }
-        return manager;
+    }
+
+    /**
+     * 打印系统的功能
+     */
+    public static void PrintLoginList() {
+        loginSelector.entrySet().stream()
+                .forEach(s -> MyLogger.printMessage(s.getKey(), s.getValue()));
     }
 
     /**

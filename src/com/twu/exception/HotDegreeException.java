@@ -5,7 +5,7 @@ package com.twu.exception;
  * @Date 2020/7/27 15:14
  * @Description ***
  **/
-public class HotDegreeException extends RuntimeException {
+public class HotDegreeException extends Exception {
     public HotDegreeException(String message) {
         super(message);
     }
