@@ -48,7 +48,7 @@ public class ManagerModel {
         permissionMap.entrySet()
                 .stream()
                 .parallel()
-                .forEachOrdered(k -> System.out.println(k.getKey() + "   " + k.getValue()));
+                .forEachOrdered(k -> System.out.println(k.getKey() + "." + k.getValue()));
     }
 
     /**
