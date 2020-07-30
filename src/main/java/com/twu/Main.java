@@ -142,7 +142,6 @@ public class Main {
                 //显示管理员的权限，后期可动态绑定
                 manager.displayPermissionEnum();
                 managerPage = SCANNER.nextLine();
-
                 try {
                     switch (managerPage) {
                         case "1":
